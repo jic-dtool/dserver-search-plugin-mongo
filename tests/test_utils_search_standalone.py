@@ -20,8 +20,8 @@ from dtoolcore import DataSetCreator, DataSet
 from dtool_lookup_server.utils import generate_dataset_info
 
 # Things tested in this module
-from dtool_lookup_server.utils_search import MongoSearch
-from dtool_lookup_server.utils_search import _dict_to_mongo_query
+from dtool_lookup_server_search_plugin_mongo.utils_search import MongoSearch
+from dtool_lookup_server_search_plugin_mongo.utils_search import _dict_to_mongo_query
 
 
 MONGO_URI = "mongodb://localhost:27017"
