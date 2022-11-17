@@ -7,7 +7,6 @@ import pymongo.errors
 
 from pymongo import MongoClient
 
-
 from dtool_lookup_server import SearchABC, ValidationError
 
 from dtool_lookup_server.date_utils import (
@@ -30,6 +29,7 @@ MONGO_QUERY_LIST_KEYS = (
     "uuids",
     "tags",
 )
+
 
 def _register_dataset_descriptive_metadata(collection, dataset_info):
     """Register dataset info in the collection.
@@ -68,6 +68,7 @@ def _register_dataset_descriptive_metadata(collection, dataset_info):
         del dataset_info["_id"]
 
     return dataset_info["uuid"]
+
 
 def _dict_to_mongo_query(query_dict):
     def _sanitise(query_dict):
@@ -127,7 +128,8 @@ class MongoSearch(SearchABC):
     def init_app(self, app):
         try:
             self._mongo_uri = app.config["SEARCH_MONGO_URI"]
-            self.client = MongoClient(self._mongo_uri)
+            self.client = MongoClient(self._mongo_uri,
+                                      uuidRepresentation='standard')
         except KeyError:
             raise(RuntimeError("Please set the SEARCH_MONGO_URI environment variable"))  # NOQA
 
