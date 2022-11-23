@@ -14,6 +14,8 @@ from dtool_lookup_server.date_utils import (
     extract_frozen_at_as_datetime,
 )
 
+from dtool_lookup_server_search_plugin_mongo.config import Config
+
 
 VALID_MONGO_QUERY_KEYS = (
     "free_text",
@@ -213,3 +215,8 @@ class MongoSearch(SearchABC):
             datasets.append(ds)
 
         return datasets
+
+
+    def get_config(self):
+        """Return initial Config object, available app-instance independent."""
+        return Config
