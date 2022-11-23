@@ -216,7 +216,6 @@ class MongoSearch(SearchABC):
 
         return datasets
 
-
     def get_config(self):
         """Return initial Config object, available app-instance independent."""
         return Config
