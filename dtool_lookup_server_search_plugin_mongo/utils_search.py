@@ -14,7 +14,8 @@ from dtool_lookup_server.date_utils import (
     extract_frozen_at_as_datetime,
 )
 
-from dtool_lookup_server_search_plugin_mongo.config import Config
+from dtool_lookup_server_search_plugin_mongo.config import (
+    Config, CONFIG_SECRETS_TO_OBFUSCATE)
 
 
 VALID_MONGO_QUERY_KEYS = (
@@ -219,3 +220,7 @@ class MongoSearch(SearchABC):
     def get_config(self):
         """Return initial Config object, available app-instance independent."""
         return Config
+
+    def get_config_secrets_to_obfuscate(self):
+        """Return config secrets never to be exposed clear text."""
+        return CONFIG_SECRETS_TO_OBFUSCATE
