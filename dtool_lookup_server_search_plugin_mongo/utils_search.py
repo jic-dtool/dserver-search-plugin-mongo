@@ -7,12 +7,16 @@ import pymongo.errors
 
 from pymongo import MongoClient
 
-from dtool_lookup_server import SearchABC, ValidationError
+from dtool_lookup_server import (
+    SearchABC, ValidationError, PaginationParameters, SortParameters)
 
 from dtool_lookup_server.date_utils import (
     extract_created_at_as_datetime,
     extract_frozen_at_as_datetime,
 )
+
+from dtool_lookup_server.sql_models import DatasetSchema
+from dtool_lookup_server.schemas import SearchDatasetSchema
 
 from dtool_lookup_server_search_plugin_mongo.config import (
     Config, CONFIG_SECRETS_TO_OBFUSCATE)
@@ -161,60 +165,44 @@ class MongoSearch(SearchABC):
         except pymongo.errors.DocumentTooLarge as e:
             raise (ValidationError("Dataset has too much metadata: {}".format(e)))
 
-    def search(self, query):
+    def search(self, query: SearchDatasetSchema,
+               pagination_parameters: PaginationParameters = None,
+               sort_parameters: SortParameters = None) -> DatasetSchema(many=True):
 
         # Deal with edge case where a user has no access to any base URIs.
         if len(query["base_uris"]) == 0:
             return []
 
+        mongo_sort = None
+        # assumes that order parameters are compatible with pymongo.ASCENDING and DESCENDING
+        if sort_parameters is not None:
+            mongo_sort = [(field, order) for field, order in sort_parameters.order().items()]
+
         mongo_query = _dict_to_mongo_query(query)
+        mongo_projection = {
+                    "_id": False,
+                    "readme": False,
+                    "manifest": False,
+                    "annotations": False,
+                }
 
-        cx = self.collection.find(
-            mongo_query,
-            {
-                "_id": False,
-                "readme": False,
-                "manifest": False,
-                "annotations": False,
-            },
-        )
+        if pagination_parameters is None:
+            cx = self.collection.find(
+                filter=mongo_query,
+                projection=mongo_projection,
+                sort=mongo_sort
+            )
+        else:
+            pagination_parameters.item_count = self.collection.count_documents(filter=mongo_query)
+            cx = self.collection.find(
+                filter=mongo_query,
+                projection=mongo_projection,
+                sort=mongo_sort,
+                skip=(pagination_parameters.page-1)*pagination_parameters.page_size,
+                limit=pagination_parameters.page_size
+            )
 
-        datasets = []
-        for ds in cx:
-            # Convert datetime object to float timestamp.
-            for key in ("created_at", "frozen_at"):
-                datetime_obj = ds[key]
-                ds[key] = dtoolcore.utils.timestamp(datetime_obj)
-
-            datasets.append(ds)
-
-        return datasets
-
-    def lookup_uris(self, uuid, base_uris):
-
-        # Deal with edge case where a user has no access to any base URIs.
-        if len(base_uris) == 0:
-            return []
-
-        mongo_query = {
-            "uuid": uuid,
-            "$or": [{"base_uri": v} for v in base_uris]
-        }
-        cx = self.collection.find(
-            mongo_query,
-            {
-                "_id": False,
-                "uri": True,
-                "base_uri": True,
-                "uuid": True,
-                "name": True
-            },
-        )
-
-        datasets = []
-        for ds in cx:
-            datasets.append(ds)
-
+        datasets = [ds for ds in cx]
         return datasets
 
     def get_config(self):
