@@ -15,7 +15,7 @@ To configure the connection to the mongo database.
 .. code-block:: bash
 
     export SEARCH_MONGO_URI="mongodb://localhost:27017/"
-    export SEARCH_MONGO_DB="dtool_lookup_server"
+    export SEARCH_MONGO_DB="dserver"
     export SEARCH_MONGO_COLLECTION="datasets"
 
 Testing

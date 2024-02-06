@@ -7,18 +7,18 @@ import pymongo.errors
 
 from pymongo import MongoClient
 
-from dtool_lookup_server import (
+from dserver import (
     SearchABC, ValidationError, PaginationParameters, SortParameters)
 
-from dtool_lookup_server.date_utils import (
+from dserver.date_utils import (
     extract_created_at_as_datetime,
     extract_frozen_at_as_datetime,
 )
 
-from dtool_lookup_server.sql_models import DatasetSchema
-from dtool_lookup_server.schemas import SearchDatasetSchema
+from dserver.sql_models import DatasetSchema
+from dserver.schemas import SearchDatasetSchema
 
-from dtool_lookup_server_search_plugin_mongo.config import (
+from dserver_search_plugin_mongo.config import (
     Config, CONFIG_SECRETS_TO_OBFUSCATE)
 
 

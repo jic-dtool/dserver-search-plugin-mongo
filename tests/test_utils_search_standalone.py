@@ -17,11 +17,11 @@ from pymongo import MongoClient
 
 from dtoolcore import DataSetCreator, DataSet
 
-from dtool_lookup_server.utils import generate_dataset_info
+from dserver.utils import generate_dataset_info
 
 # Things tested in this module
-from dtool_lookup_server_search_plugin_mongo.utils_search import MongoSearch
-from dtool_lookup_server_search_plugin_mongo.utils_search import _dict_to_mongo_query
+from dserver_search_plugin_mongo.utils_search import MongoSearch
+from dserver_search_plugin_mongo.utils_search import _dict_to_mongo_query
 
 
 MONGO_URI = "mongodb://localhost:27017"
@@ -29,7 +29,7 @@ MONGO_URI = "mongodb://localhost:27017"
 
 def random_string(
     size=9,
-    prefix="test_dtool_lookup_server_mongo_search",
+    prefix="test_dserver_mongo_search",
     chars=string.ascii_uppercase + string.ascii_lowercase + string.digits
 ):
     return prefix + ''.join(random.choice(chars) for _ in range(size))
@@ -126,7 +126,7 @@ def test_register_basic(tmp_mongo_db):  # NOQA
 
 def test_register_raises_when_metadata_too_large(tmp_mongo_db):  # NOQA
 
-    from dtool_lookup_server import ValidationError
+    from dserver import ValidationError
 
     readme_lines = ["---"]
     for i in range(100000):
