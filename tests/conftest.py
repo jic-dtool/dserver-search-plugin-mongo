@@ -36,7 +36,7 @@ def tmp_app_with_users(request):
     tmp_mongo_db_name = random_string()
 
     config = {
-        "API_TITLE": 'dtool-lookup-server API',
+        "API_TITLE": 'dserver API',
         "API_VERSION": 'v1',
         "CONFIG_SECRETS_TO_OBFUSCATE": [],
         "OPENAPI_VERSION": '3.0.2',

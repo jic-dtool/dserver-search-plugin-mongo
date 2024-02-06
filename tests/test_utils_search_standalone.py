@@ -1,4 +1,4 @@
-"""Tests for utils_search.py that don't depend on code in dtool-lookup-server.
+"""Tests for utils_search.py that don't depend on code in dserver.
 
 For the future when the functionality of utils_search is split into a separate
 python package.
