@@ -176,7 +176,7 @@ class MongoSearch(SearchABC):
         mongo_sort = None
         # assumes that order parameters are compatible with pymongo.ASCENDING and DESCENDING
         if sort_parameters is not None:
-            mongo_sort = [(field, order) for field, order in sort_parameters.order().items()]
+            mongo_sort = [(field, order) for field, order in sort_parameters.order.items()]
 
         mongo_query = _dict_to_mongo_query(query)
         mongo_projection = {
