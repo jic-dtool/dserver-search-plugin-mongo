@@ -3,6 +3,7 @@ from setuptools import setup
 from setuptools_scm import get_version
 version = get_version(root='.', relative_to=__file__)
 
+
 def local_scheme(version):
     """Skip the local version (eg. +xyz of 0.6.1.dev4+gdf99fe2)
     to be able to upload to Test PyPI"""
