@@ -14,6 +14,7 @@ Added
 Changed
 ^^^^^^^
 
+- Replace ``setup.py`` by ``pyproject.toml``
 - Rebranded from dtool-lookup-server to dserver
 - Added sorting and pagination
 
