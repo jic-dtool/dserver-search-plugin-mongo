@@ -17,10 +17,18 @@ dependencies = [
         "dtool-lookup-server"
     ]
 
+[project.optional-dependencies]
+test = [
+    "dtool-lookup-server",
+    "dserver-retrieve-plugin-mongo",
+    "pytest",
+    "pytest-cov",
+]
+
 [project.urls]
 Documentation = "https://jic-dtool.github.io/dserver-search-plugin-mongo"
-Repository = "https://github.com/jic-dtool/dserver-search-plugin-mongo"
-Changelog = "https://github.com/jic-dtool/dserver-search-plugin-mongo/blob/main/CHANGELOG.rst"
+Repository = "https://livmats.github.io/"
+Changelog = "https://github.com/livMatS/dtool-lookup-api/blob/main/CHANGELOG.rst"
 
 [tool.setuptools_scm]
 version_scheme = "guess-next-dev"
