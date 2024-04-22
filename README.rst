@@ -1,14 +1,14 @@
 README
 ======
 
-Search plugin for dserver using mongodb
+Search plugin for *dserver* using mongodb
 
-To install the dserver-search-plugin-mongo package.
+To install the `dserver-search-plugin-mongo` package.
 
 .. code-block:: bash
 
     cd dserver-search-plugin-mongo
-    python setup.py install
+    pip install .
 
 To configure the connection to the mongo database.
 
@@ -26,7 +26,15 @@ functional retrieve plugin, i.e.
 
 .. code-block:: bash
 
-    pip install dserver
+    pip install dtool-lookup-server
     pip install dserver-retrieve-plugin-mongo
+
+Installation with the ``[test]`` extension
+
+.. code-block:: bash
+
+    pip install .[test]
+
+installs these essential testing dependencies as well.
 
 Run tests from within repository root with ``pytest``.
