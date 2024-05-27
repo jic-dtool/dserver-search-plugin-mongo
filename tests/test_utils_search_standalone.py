@@ -17,7 +17,7 @@ from pymongo import MongoClient
 
 from dtoolcore import DataSetCreator, DataSet
 
-from dserver.utils import generate_dataset_info
+from dtool_lookup_server.utils import generate_dataset_info
 
 # Things tested in this module
 from dserver_search_plugin_mongo.utils_search import MongoSearch
@@ -126,7 +126,7 @@ def test_register_basic(tmp_mongo_db):  # NOQA
 
 def test_register_raises_when_metadata_too_large(tmp_mongo_db):  # NOQA
 
-    from dserver import ValidationError
+    from dtool_lookup_server import ValidationError
 
     readme_lines = ["---"]
     for i in range(100000):
