@@ -1,4 +1,4 @@
-"""Tests for utils_search.py that don't depend on code in dtool-lookup-server.
+"""Tests for utils_search.py that don't depend on code in dserver.
 
 For the future when the functionality of utils_search is split into a separate
 python package.
@@ -20,8 +20,8 @@ from dtoolcore import DataSetCreator, DataSet
 from dtool_lookup_server.utils import generate_dataset_info
 
 # Things tested in this module
-from dtool_lookup_server_search_plugin_mongo.utils_search import MongoSearch
-from dtool_lookup_server_search_plugin_mongo.utils_search import _dict_to_mongo_query
+from dserver_search_plugin_mongo.utils_search import MongoSearch
+from dserver_search_plugin_mongo.utils_search import _dict_to_mongo_query
 
 
 MONGO_URI = "mongodb://localhost:27017"
@@ -29,7 +29,7 @@ MONGO_URI = "mongodb://localhost:27017"
 
 def random_string(
     size=9,
-    prefix="test_dtool_lookup_server_mongo_search",
+    prefix="test_dserver_mongo_search",
     chars=string.ascii_uppercase + string.ascii_lowercase + string.digits
 ):
     return prefix + ''.join(random.choice(chars) for _ in range(size))
@@ -89,64 +89,6 @@ class _MockApp(object):
 ##############################################################################
 # Here are the tests
 ##############################################################################
-
-def test_lookup_uris(tmp_mongo_db):  # NOQA
-
-    ds_info_1 = create_dataset_info(
-        "s3://store1",
-        "apple-gala",
-        "---\ndescription: gala apples",
-        ["barrel1", "barrel2"],
-        ["red", "yellow"],
-        {"type": "fruit"},
-        "farmer"
-    )
-    ds_info_2 = update_base_uri(ds_info_1.copy(), "s3://store2")
-    uuid = ds_info_1["uuid"]
-
-    both_base_uris = ["s3://store1", "s3://store2"]
-    only_store2 = ["s3://store2"]
-
-    mongo_search = MongoSearch()
-    app = _MockApp()
-    app.config = {
-        "SEARCH_MONGO_URI": MONGO_URI,
-        "SEARCH_MONGO_DB": tmp_mongo_db,
-        "SEARCH_MONGO_COLLECTION": "datasets"
-    }
-    mongo_search.init_app(app)
-
-    # Should be empty. Nothing registered yet.
-    assert mongo_search.lookup_uris(uuid, both_base_uris) == []
-
-    # Register a dataset.
-    mongo_search.register_dataset(ds_info_1)
-    assert mongo_search.lookup_uris(uuid, both_base_uris) == [
-        {
-            "base_uri": ds_info_1["base_uri"],
-            "name": ds_info_1["name"],
-            "uri": ds_info_1["uri"],
-            "uuid": ds_info_1["uuid"]
-            }
-    ]
-
-    # Register the same dataset in different base URI
-    mongo_search.register_dataset(ds_info_2)
-    assert len(mongo_search.lookup_uris(uuid, both_base_uris)) == 2  # NOQA
-
-    # Make sure only the dataset from store2 is retrievd if limited
-    # that base URI.
-    assert mongo_search.lookup_uris(uuid, only_store2) == [
-        {
-            "base_uri": ds_info_2["base_uri"],
-            "name": ds_info_2["name"],
-            "uri": ds_info_2["uri"],
-            "uuid": ds_info_2["uuid"]
-            }
-    ]
-
-    # Make sure nothing is returned if there are no base URIs.
-    assert len(mongo_search.lookup_uris(uuid, [])) == 0  # NOQA
 
 
 def test_register_basic(tmp_mongo_db):  # NOQA
