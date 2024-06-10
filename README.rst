@@ -15,7 +15,7 @@ dserver Search Plugin Mongo
 
 Search plugin for *dserver* using mongodb
 
-To install the `dserver-search-plugin-mongo` package.
+To install the ``dserver-search-plugin-mongo`` package.
 
 .. code-block:: bash
 
