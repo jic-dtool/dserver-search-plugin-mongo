@@ -4,6 +4,11 @@ CHANGELOG
 This project uses `semantic versioning <http://semver.org/>`_.
 This change log uses principles from `keep a changelog <http://keepachangelog.com/>`_.
 
+Changed
+^^^^^^^
+
+- Changed dependency from ``dtool_lookup_server`` to ``dservercore``.
+
 [0.3.0]
 -------
 
