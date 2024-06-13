@@ -38,7 +38,7 @@ functional retrieve plugin, i.e.
 
 .. code-block:: bash
 
-    pip install dtool-lookup-server
+    pip install dservercore
     pip install dserver-retrieve-plugin-mongo
 
 Installation with the ``[test]`` extension
