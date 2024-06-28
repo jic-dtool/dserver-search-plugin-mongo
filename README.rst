@@ -1,9 +1,21 @@
-README
-======
+dserver Search Plugin Mongo
+===========================
+
+.. |dtool| image:: https://github.com/jic-dtool/dserver-search-plugin-mongo/blob/main/icons/22x22/dtool_logo.png?raw=True
+    :height: 20px
+    :target: https://github.com/jic-dtool/dserver-search-plugin-mongo
+.. |pypi| image:: https://img.shields.io/pypi/v/dserver-search-plugin-mongo
+    :target: https://pypi.org/project/dserver-search-plugin-mongo/
+.. |tag| image:: https://img.shields.io/github/v/tag/jic-dtool/dserver-search-plugin-mongo
+    :target: https://github.com/jic-dtool/dserver-search-plugin-mongo/tags
+.. |test| image:: https://img.shields.io/github/actions/workflow/status/jic-dtool/dserver-search-plugin-mongo/test.yml?branch=main&label=tests
+    :target: https://github.com/jic-dtool/dserver-search-plugin-mongo/actions/workflows/test.yml
+
+|dtool| |pypi| |tag| |test|
 
 Search plugin for *dserver* using mongodb
 
-To install the `dserver-search-plugin-mongo` package.
+To install the ``dserver-search-plugin-mongo`` package.
 
 .. code-block:: bash
 
@@ -26,7 +38,7 @@ functional retrieve plugin, i.e.
 
 .. code-block:: bash
 
-    pip install dtool-lookup-server
+    pip install dservercore
     pip install dserver-retrieve-plugin-mongo
 
 Installation with the ``[test]`` extension

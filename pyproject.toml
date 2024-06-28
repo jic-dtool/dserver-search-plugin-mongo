@@ -5,6 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dserver-search-plugin-mongo"
 description = "Search plugin for dserver using mongodb"
+readme = "README.rst"
 license = {file = "LICENSE"}
 authors = [
     {name = "Tjelvar Olsson", email = "tjelvar.olsson@gmail.com"},
@@ -14,21 +15,21 @@ dynamic = ["version"]
 dependencies = [
         "pymongo",
         "dtoolcore>=3.18.0",
-        "dtool-lookup-server"
+        "dservercore"
     ]
 
 [project.optional-dependencies]
 test = [
-    "dtool-lookup-server",
+    "dservercore",
     "dserver-retrieve-plugin-mongo",
     "pytest",
     "pytest-cov",
 ]
 
 [project.urls]
-Documentation = "https://jic-dtool.github.io/dserver-search-plugin-mongo"
-Repository = "https://livmats.github.io/"
-Changelog = "https://github.com/livMatS/dtool-lookup-api/blob/main/CHANGELOG.rst"
+Documentation = "https://dserver-search-plugin-mongo.readthedocs.io"
+Repository = "https://github.com/jic-dtool/dserver-search-plugin-mongo"
+Changelog = "https://github.com/jic-dtool/dserver-search-plugin-mongo/blob/main/CHANGELOG.rst"
 
 [tool.setuptools_scm]
 version_scheme = "guess-next-dev"
@@ -38,5 +39,5 @@ write_to = "dserver_search_plugin_mongo/version.py"
 [tool.setuptools]
 packages = ["dserver_search_plugin_mongo"]
 
-[project.entry-points."dtool_lookup_server.search"]
+[project.entry-points."dservercore.search"]
 "MongoSearch" = "dserver_search_plugin_mongo.utils_search:MongoSearch"
