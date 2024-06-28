@@ -43,8 +43,8 @@ jobs:
     - name: Install server and retrieve plugin
       run: | 
         # This should move into the strategy matrix once released
-        pip install git+https://github.com/livMatS/dservercore.git@${{ matrix.dservercore-version }}
-        pip install git+https://github.com/livMatS/dserver-retrieve-plugin-mongo.git@${{ matrix.dserver-retrieve-plugin-mongo-version }}
+        pip install git+https://github.com/jic-dtool/dservercore.git@${{ matrix.dservercore-version }}
+        pip install git+https://github.com/jic-dtool/dserver-retrieve-plugin-mongo.git@${{ matrix.dserver-retrieve-plugin-mongo-version }}
 
     - name: Install own requirements
       run: |

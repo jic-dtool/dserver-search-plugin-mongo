@@ -1,15 +1,15 @@
 dserver Search Plugin Mongo
 ===========================
 
-.. |dtool| image:: https://github.com/livMatS/dserver-search-plugin-mongo/blob/main/icons/22x22/dtool_logo.png?raw=True
+.. |dtool| image:: https://github.com/jic-dtool/dserver-search-plugin-mongo/blob/main/icons/22x22/dtool_logo.png?raw=True
     :height: 20px
-    :target: https://github.com/livMatS/dserver-search-plugin-mongo
+    :target: https://github.com/jic-dtool/dserver-search-plugin-mongo
 .. |pypi| image:: https://img.shields.io/pypi/v/dserver-search-plugin-mongo
     :target: https://pypi.org/project/dserver-search-plugin-mongo/
-.. |tag| image:: https://img.shields.io/github/v/tag/livMatS/dserver-search-plugin-mongo
-    :target: https://github.com/livMatS/dserver-search-plugin-mongo/tags
-.. |test| image:: https://img.shields.io/github/actions/workflow/status/livMatS/dserver-search-plugin-mongo/test.yml?branch=main&label=tests
-    :target: https://github.com/livMatS/dserver-search-plugin-mongo/actions/workflows/test.yml
+.. |tag| image:: https://img.shields.io/github/v/tag/jic-dtool/dserver-search-plugin-mongo
+    :target: https://github.com/jic-dtool/dserver-search-plugin-mongo/tags
+.. |test| image:: https://img.shields.io/github/actions/workflow/status/jic-dtool/dserver-search-plugin-mongo/test.yml?branch=main&label=tests
+    :target: https://github.com/jic-dtool/dserver-search-plugin-mongo/actions/workflows/test.yml
 
 |dtool| |pypi| |tag| |test|
 
