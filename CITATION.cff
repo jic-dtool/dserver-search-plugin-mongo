@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+authors:
+- family-names: Hörmann
+  given-names: Johannes L.
+  orcid: 0000-0001-5867-695X
+- family-names: Olsson
+  given-names: Tjelvar S. G.
+  orcid:  0000-0001-8791-4531
+title: dserver-search-plugin-mongo
+version: 0.4.1
+date-released: 2024-07-09
