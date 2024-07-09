@@ -10,8 +10,10 @@ dserver Search Plugin Mongo
     :target: https://github.com/jic-dtool/dserver-search-plugin-mongo/tags
 .. |test| image:: https://img.shields.io/github/actions/workflow/status/jic-dtool/dserver-search-plugin-mongo/test.yml?branch=main&label=tests
     :target: https://github.com/jic-dtool/dserver-search-plugin-mongo/actions/workflows/test.yml
+.. |zenodo| image:: https://zenodo.org/badge/562489144.svg
+    :target: https://zenodo.org/doi/10.5281/zenodo.12702153
 
-|dtool| |pypi| |tag| |test|
+|dtool| |pypi| |tag| |test| |zenodo|
 
 Search plugin for *dserver* using mongodb
 
