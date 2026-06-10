@@ -23,8 +23,8 @@ from dservercore.utils import generate_dataset_info
 from dserver_search_plugin_mongo.utils_search import MongoSearch
 from dserver_search_plugin_mongo.utils_search import _dict_to_mongo_query
 
-
-MONGO_URI = "mongodb://localhost:27017"
+import os
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017/")
 
 
 def random_string(
@@ -43,6 +43,7 @@ def tmp_mongo_db(request):
     @request.addfinalizer
     def teardown():
         client.drop_database(tmp_mongo_db_name)
+        client.close()
 
     return tmp_mongo_db_name
 
