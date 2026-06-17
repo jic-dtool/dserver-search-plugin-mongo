@@ -93,7 +93,7 @@ flake8 .   # full run
 
 ### A running MongoDB is required for most tests
 
-Tests connect to `mongodb://localhost:27017` by default, overridable via the `MONGO_URI` env var
+Tests connect to `mongodb://localhost:27017` by default, overridable via the `TEST_MONGO_URI` env var
 (used in `tests/test_utils_search_standalone.py`, `tests/conftest.py` and `tests/test_config_route.py`,
 e.g. for an authenticated MongoDB). They create a randomly-named temp database per test and drop it
 (and close the client) on teardown.

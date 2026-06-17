@@ -16,10 +16,10 @@ Changed
 Fixed
 ^^^^^
 
-- Test fixtures: hardcoded MongoDB URI replaced by ``MONGO_URI`` environment variable (default: ``mongodb://localhost:27017/``)
+- Test fixtures: hardcoded MongoDB URI replaced by ``TEST_MONGO_URI`` environment variable (default: ``mongodb://localhost:27017/``)
 - Test fixtures: added ``client.close()`` after ``drop_database()`` in teardown to prevent connection pool exhaustion
 - Test fixtures: removed stale ``FLASK_ENV`` key from app config (removed in Flask 3.0)
-- Config route test: URI assertion now reads from ``MONGO_URI`` environment variable
+- Config route test: URI assertion now reads from ``TEST_MONGO_URI`` environment variable
 
 [0.4.2]
 -------
