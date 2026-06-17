@@ -93,9 +93,10 @@ flake8 .   # full run
 
 ### A running MongoDB is required for most tests
 
-Tests connect to `mongodb://localhost:27017` by default, overridable via the `TEST_MONGO_URI` env
-var (used in both `tests/test_utils_search_standalone.py` and `tests/conftest.py`, e.g. for an
-authenticated MongoDB). They create a randomly-named temp database per test and drop it on teardown.
+Tests connect to `mongodb://localhost:27017` by default, overridable via the `MONGO_URI` env var
+(used in `tests/test_utils_search_standalone.py`, `tests/conftest.py` and `tests/test_config_route.py`,
+e.g. for an authenticated MongoDB). They create a randomly-named temp database per test and drop it
+(and close the client) on teardown.
 The pure `_dict_to_mongo_query` unit tests (`test_empty_dict`, `test_free_text`, etc.) do *not* need
 Mongo, but the registration/search tests do.
 
@@ -131,7 +132,6 @@ preparing a release.
 
 ## CI
 
-`.github/workflows/test.yml` runs a matrix of Python 3.7–3.12 × MongoDB 4.2/4.4/5.0/6.0, installing
+`.github/workflows/test.yml` runs a matrix of Python 3.10–3.13 × MongoDB 5.0/6.0/7.0/8.0, installing
 `dservercore` and `dserver-retrieve-plugin-mongo` from their `main` branches. Keep the plugin
-compatible with that whole range. Note `pyproject.toml` declares `requires-python = ">=3.8"`, which is
-tighter than the 3.7 entry still present in the CI matrix.
+compatible with that whole range; `pyproject.toml` declares `requires-python = ">=3.10"` to match.
