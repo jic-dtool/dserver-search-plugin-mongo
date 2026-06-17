@@ -3,6 +3,8 @@
 import os
 
 import dtoolcore.utils
+import yaml
+
 import pymongo.errors
 
 from pymongo import MongoClient
@@ -22,12 +24,33 @@ from dserver_search_plugin_mongo.config import (
     Config, CONFIG_SECRETS_TO_OBFUSCATE)
 
 
+def _parse_readme(readme):
+    """Return the README parsed into a dict, or None.
+
+    The README is stored verbatim as a string under 'readme'. The parsed
+    representation stored under 'readme_parsed' enables structured queries
+    over README content, e.g. the dependency graph plugin's
+    'readme_parsed.derived_from.uuid' dependency key.
+    """
+    if isinstance(readme, dict):
+        return readme
+    if isinstance(readme, str):
+        try:
+            parsed = yaml.safe_load(readme)
+        except yaml.YAMLError:
+            return None
+        if isinstance(parsed, dict):
+            return parsed
+    return None
+
+
 VALID_MONGO_QUERY_KEYS = (
     "free_text",
     "creator_usernames",
     "base_uris",
     "uuids",
     "tags",
+    "uploaded_by",
 )
 
 MONGO_QUERY_LIST_KEYS = (
@@ -35,6 +58,7 @@ MONGO_QUERY_LIST_KEYS = (
     "base_uris",
     "uuids",
     "tags",
+    "uploaded_by",
 )
 
 
@@ -51,6 +75,10 @@ def _register_dataset_descriptive_metadata(collection, dataset_info):
     # Make a copy to ensure that the original data strucutre does not
     # get mangled by the datetime replacements.
     dataset_info = dataset_info.copy()
+
+    # Store a parsed representation of the README alongside the verbatim
+    # string to enable structured queries over README content.
+    dataset_info["readme_parsed"] = _parse_readme(dataset_info.get("readme"))
 
     frozen_at = extract_frozen_at_as_datetime(dataset_info)
     created_at = extract_created_at_as_datetime(dataset_info)
@@ -116,6 +144,10 @@ def _dict_to_mongo_query(query_dict):
         )
     if "uuids" in query_dict:
         sub_queries.append(_deal_with_possible_or_statment(query_dict["uuids"], "uuid"))  # NOQA
+    if "uploaded_by" in query_dict:
+        sub_queries.append(
+            _deal_with_possible_or_statment(
+                query_dict["uploaded_by"], "uploaded_by"))
     if "tags" in query_dict:
         sub_queries.append(
             _deal_with_possible_and_statement(query_dict["tags"], "tags")
@@ -204,6 +236,40 @@ class MongoSearch(SearchABC):
 
         datasets = [ds for ds in cx]
         return datasets
+
+    def set_tags(self, uri, tags):
+        """Set a dataset's tags (replaces existing tags)."""
+        from dservercore import UnknownURIError
+        result = self.collection.update_one(
+            {"uri": uri},
+            {"$set": {"tags": tags}}
+        )
+        if result.matched_count == 0:
+            raise (UnknownURIError())
+        return tags
+
+    def set_annotations(self, uri, annotations):
+        """Set a dataset's annotations (replaces existing annotations)."""
+        from dservercore import UnknownURIError
+        result = self.collection.update_one(
+            {"uri": uri},
+            {"$set": {"annotations": annotations}}
+        )
+        if result.matched_count == 0:
+            raise (UnknownURIError())
+        return annotations
+
+    def set_readme(self, uri, readme):
+        """Set a dataset's readme content."""
+        from dservercore import UnknownURIError
+        result = self.collection.update_one(
+            {"uri": uri},
+            {"$set": {"readme": readme,
+                      "readme_parsed": _parse_readme(readme)}}
+        )
+        if result.matched_count == 0:
+            raise (UnknownURIError())
+        return readme
 
     def get_config(self):
         """Return initial Config object, available app-instance independent."""

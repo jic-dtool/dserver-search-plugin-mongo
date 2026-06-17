@@ -13,6 +13,8 @@ from contextlib import contextmanager
 
 import pytest
 
+import os
+
 from pymongo import MongoClient
 
 from dtoolcore import DataSetCreator, DataSet
@@ -23,8 +25,7 @@ from dservercore.utils import generate_dataset_info
 from dserver_search_plugin_mongo.utils_search import MongoSearch
 from dserver_search_plugin_mongo.utils_search import _dict_to_mongo_query
 
-
-MONGO_URI = "mongodb://localhost:27017"
+MONGO_URI = os.environ.get("TEST_MONGO_URI", "mongodb://localhost:27017/")
 
 
 def random_string(
@@ -43,6 +44,7 @@ def tmp_mongo_db(request):
     @request.addfinalizer
     def teardown():
         client.drop_database(tmp_mongo_db_name)
+        client.close()
 
     return tmp_mongo_db_name
 
@@ -108,7 +110,12 @@ def test_register_basic(tmp_mongo_db):  # NOQA
     app.config = {
         "SEARCH_MONGO_URI": MONGO_URI,
         "SEARCH_MONGO_DB": tmp_mongo_db,
-        "SEARCH_MONGO_COLLECTION": "datasets"
+        "SEARCH_MONGO_COLLECTION": "datasets",
+        # Required by extensions that may be co-installed in the test
+        # environment (e.g. the dependency graph plugin).
+        "MONGO_URI": MONGO_URI,
+        "MONGO_DB": tmp_mongo_db,
+        "MONGO_COLLECTION": "datasets",
     }
     mongo_search.init_app(app)
 
@@ -148,7 +155,12 @@ def test_register_raises_when_metadata_too_large(tmp_mongo_db):  # NOQA
     app.config = {
         "SEARCH_MONGO_URI": MONGO_URI,
         "SEARCH_MONGO_DB": tmp_mongo_db,
-        "SEARCH_MONGO_COLLECTION": "datasets"
+        "SEARCH_MONGO_COLLECTION": "datasets",
+        # Required by extensions that may be co-installed in the test
+        # environment (e.g. the dependency graph plugin).
+        "MONGO_URI": MONGO_URI,
+        "MONGO_DB": tmp_mongo_db,
+        "MONGO_COLLECTION": "datasets",
     }
     mongo_search.init_app(app)
 
@@ -163,7 +175,12 @@ def test_search_free_text(tmp_mongo_db):
     app.config = {
         "SEARCH_MONGO_URI": MONGO_URI,
         "SEARCH_MONGO_DB": tmp_mongo_db,
-        "SEARCH_MONGO_COLLECTION": "datasets"
+        "SEARCH_MONGO_COLLECTION": "datasets",
+        # Required by extensions that may be co-installed in the test
+        # environment (e.g. the dependency graph plugin).
+        "MONGO_URI": MONGO_URI,
+        "MONGO_DB": tmp_mongo_db,
+        "MONGO_COLLECTION": "datasets",
     }
     mongo_search.init_app(app)
 
